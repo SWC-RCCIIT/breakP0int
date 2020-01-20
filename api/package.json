@@ -1,0 +1,39 @@
+{
+  "name": "breakp0int",
+  "version": "1.0.0",
+  "description": "API for reelitin",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/breakp0int-SIH20/breakP0int.git"
+  },
+  "keywords": [
+    "node",
+    "android",
+    "api",
+    "rest",
+    "jwt",
+    "mails"
+  ],
+  "author": "breakP0int",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/breakp0int-SIH20/breakP0int/issues"
+  },
+  "homepage": "https://github.com/breakp0int-SIH20/breakP0int#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "esprima": "^4.0.1",
+    "prettier": "^1.19.1"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.9"
+  }
+}
