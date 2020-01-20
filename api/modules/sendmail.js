@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const sendMail = async (toAccount, { subject, text, html }, logger = true) => {
     let transporter = nodemailer.createTransport({
