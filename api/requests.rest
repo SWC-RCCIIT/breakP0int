@@ -1,6 +1,6 @@
-POST  http://localhost:4000/login
+GET  http://localhost:4000/login
 Content-Type: application/json
 
 {
-    "username": "Soham"
+    "username": "anubhab.mukherjee2013@gmail.com"
 }
