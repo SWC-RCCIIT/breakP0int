@@ -13,7 +13,7 @@ module.exports = {
     rules: {
         semi: 2,
         quotes: [2, 'single', { avoidEscape: true }],
-        'comma-dangle': [2, 'always'],
+        'comma-dangle': [2, 'always-multiline'],
         'prettier/prettier': 2,
         'brace-style': [2, '1tbs', { allowSingleLine: true }],
     },
