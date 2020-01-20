@@ -39,7 +39,7 @@ app.delete('/logout', (req, res) => {
 });
 
 app.get('/login', async (req, res) => {
-    const request = { ...req.params, ...req.body, ...req.query };
+    const request = Object.assign({}, req.params, req.body, req.query);
     if (!request.verif && request.username) {
         let user = new authSchema({ username: request.username });
         let token = generateAccessToken({ user: request.username });
@@ -70,7 +70,7 @@ app.get('/login', async (req, res) => {
         jwt.verify(
             request.verif,
             process.env.ACCESS_TOKEN_SECRET,
-            async (err, user) => {
+            async err => {
                 if (err) return res.sendStatus(403);
                 const accessToken = generateAccessToken({
                     user: request.username,
