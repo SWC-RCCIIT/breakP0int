@@ -4,7 +4,8 @@
     "description": "API for reelitin",
     "main": "index.js",
     "scripts": {
-        "test": "node index.js"
+        "testAuth": "node authServer.js",
+        "testMain": "node mainServer.js"
     },
     "repository": {
         "type": "git",
