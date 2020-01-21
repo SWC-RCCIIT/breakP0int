@@ -55,11 +55,11 @@ app.get('/login', async (req, res) => {
             {
                 subject: 'Verification for reelitin',
                 text: '',
-                html: `http://${process.env.HOSTNAME}:${
+                html: `<a href="http://${process.env.HOSTNAME}:${
                     process.env.AUTH_PORT
                 }/login?verif=${URL.format(token)}&username=${URL.format(
                     request.username,
-                )}`,
+                )}">Click here to verify yourself</a>`,
             },
             true,
         );
@@ -83,7 +83,8 @@ app.get('/login', async (req, res) => {
                     { username: request.username },
                     { accessToken, refreshToken },
                 );
-                res.json(await user_.save());
+                await user_.save();
+                res.json({ refreshToken, accessToken });
             },
         );
     } else res.sendStatus(404);
