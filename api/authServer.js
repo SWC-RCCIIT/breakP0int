@@ -33,8 +33,17 @@ app.post('/token', (req, res) => {
             (err, user) => {
                 if (err) return res.sendStatus(403);
                 const accessToken = generateAccessToken({ name: user.name });
-                authSchema.findOneAndUpdate({ refreshToken }, { accessToken });
-                res.send({ accessToken });
+                authSchema.findOne({ refreshToken }, async (err, doc) => {
+                    if (err) return res.sendStatus(404);
+                    if (!doc.accessToken) {
+                        return res.status(403).send({
+                            text: 'Unverified',
+                        });
+                    }
+                    doc.accessToken = accessToken;
+                    await doc.save();
+                    res.send({ accessToken });
+                });
             },
         );
     });
@@ -56,16 +65,11 @@ app.get('/login', async (req, res) => {
         let token = generateAccessToken({ user: request.username });
         sendMail(
             request.username,
-            {
-                subject: 'Verification for reelitin',
-                text: '',
-                html: `<a href="http://${process.env.HOSTNAME}:${
-                    process.env.AUTH_PORT
-                }/login?verif=${URL.format(token)}&username=${URL.format(
-                    request.username,
-                )}">Click here to verify yourself</a>`,
-            },
-            true,
+            `<a href="http://${process.env.HOSTNAME}:${
+                process.env.AUTH_PORT
+            }/login?verif=${URL.format(token)}&username=${URL.format(
+                request.username,
+            )}">Click here to verify yourself</a>`,
         );
 
         await user.save();
@@ -92,7 +96,7 @@ app.get('/login', async (req, res) => {
 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '30s',
+        expiresIn: 360,
     });
 }
 
