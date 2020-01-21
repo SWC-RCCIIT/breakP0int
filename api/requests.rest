@@ -10,7 +10,11 @@ POST http://localhost:4000/token
 Content-Type: application/json
 
 {
+<<<<<<< HEAD
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYW51YmhhYi5tdWtoZXJqZWUyMDEzQGdtYWlsLmNvbSIsImlhdCI6MTU3OTU4NTI1N30.VPwKzTezM-Yd0eD56E6pAGFgoaimW1sHtD_06MJGpgU"
+=======
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoibXVraGVyamVlYXJuYWI5MDVAZ21haWwuY29tIiwiaWF0IjoxNTc5NTkwODkzfQ.aBkrRLoWMGxv_UjFEe1p7LtNDwblVJLiEGFEqjCBhLc"
+>>>>>>> 0db48ad362505ba8732b4bc4e853f1ed8ac3e921
 }
 
 ###
