@@ -10,7 +10,11 @@ POST http://localhost:4000/token
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYW51YmhhYi5tdWtoZXJqZWUyMDEzQGdtYWlsLmNvbSIsImlhdCI6MTU3OTUxNjcyM30.vwd-66qCXuiAvWB2a1YIKy3d2oohhI98YBOv4900Xbk"
+<<<<<<< HEAD
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYW51YmhhYi5tdWtoZXJqZWUyMDEzQGdtYWlsLmNvbSIsImlhdCI6MTU3OTU4NTI1N30.VPwKzTezM-Yd0eD56E6pAGFgoaimW1sHtD_06MJGpgU"
+=======
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoibXVraGVyamVlYXJuYWI5MDVAZ21haWwuY29tIiwiaWF0IjoxNTc5NTkwODkzfQ.aBkrRLoWMGxv_UjFEe1p7LtNDwblVJLiEGFEqjCBhLc"
+>>>>>>> 0db48ad362505ba8732b4bc4e853f1ed8ac3e921
 }
 
 ###
@@ -19,4 +23,24 @@ Content-Type: application/json
 
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYW51YmhhYi5tdWtoZXJqZWUyMDEzQGdtYWlsLmNvbSIsImlhdCI6MTU3OTUxNjcyM30.vwd-66qCXuiAvWB2a1YIKy3d2oohhI98YBOv4900Xbk"
+}
+
+###
+POST http://localhost:3000/prescribed/ebola
+Content-Type: application/json
+
+{
+    "medicine": "boritin",
+    "dosage": 50,
+    "age": 18,
+    "weight": 45
+}
+
+###
+POST http://192.168.43.120:8000
+Content-Type: application/json
+
+{
+    "EM": "aaaa@ettke.com",
+    "CONTENT": "<h1>Hello</h1>"
 }
