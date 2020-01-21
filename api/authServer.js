@@ -65,16 +65,11 @@ app.get('/login', async (req, res) => {
         let token = generateAccessToken({ user: request.username });
         sendMail(
             request.username,
-            {
-                subject: 'Verification for reelitin',
-                text: '',
-                html: `<a href="http://${process.env.HOSTNAME}:${
-                    process.env.AUTH_PORT
-                }/login?verif=${URL.format(token)}&username=${URL.format(
-                    request.username,
-                )}">Click here to verify yourself</a>`,
-            },
-            true,
+            `<a href="http://${process.env.HOSTNAME}:${
+                process.env.AUTH_PORT
+            }/login?verif=${URL.format(token)}&username=${URL.format(
+                request.username,
+            )}">Click here to verify yourself</a>`,
         );
 
         await user.save();
