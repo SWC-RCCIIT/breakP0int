@@ -48,24 +48,28 @@ app.delete('/logout', (req, res) => {
 app.get('/login', async (req, res) => {
     const request = Object.assign({}, req.params, req.body, req.query);
     if (!request.verif && request.username) {
-        let user = new authSchema({ username: request.username });
+        const refreshToken = jwt.sign(
+            { user: request.username },
+            process.env.REFRESH_TOKEN_SECRET,
+        );
+        let user = new authSchema({ username: request.username, refreshToken });
         let token = generateAccessToken({ user: request.username });
         sendMail(
             request.username,
             {
                 subject: 'Verification for reelitin',
                 text: '',
-                html: `http://${process.env.HOSTNAME}:${
+                html: `<a href="http://${process.env.HOSTNAME}:${
                     process.env.AUTH_PORT
                 }/login?verif=${URL.format(token)}&username=${URL.format(
                     request.username,
-                )}`,
+                )}">Click here to verify yourself</a>`,
             },
             true,
         );
 
-        const nUser = await user.save();
-        res.status(201).send(nUser);
+        await user.save();
+        res.status(201).send({ refreshToken });
     } else if (request.verif && request.username) {
         jwt.verify(
             request.verif,
@@ -75,15 +79,12 @@ app.get('/login', async (req, res) => {
                 const accessToken = generateAccessToken({
                     user: request.username,
                 });
-                const refreshToken = jwt.sign(
-                    { user: request.username },
-                    process.env.REFRESH_TOKEN_SECRET,
-                );
                 let user_ = await authSchema.findOneAndUpdate(
                     { username: request.username },
-                    { accessToken, refreshToken },
+                    { accessToken },
                 );
-                res.json(await user_.save());
+                await user_.save();
+                res.json({ accessToken });
             },
         );
     } else res.sendStatus(404);
