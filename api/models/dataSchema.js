@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const diseases = require('../constants/diseases');
+const drugs = require('../constants/drugs');
 
 const dataSchema = new mongoose.Schema({
     disease: {
@@ -9,6 +10,7 @@ const dataSchema = new mongoose.Schema({
     },
     medicine: {
         type: String,
+        enum: drugs,
         required: true,
     },
     dosage: {
@@ -22,6 +24,14 @@ const dataSchema = new mongoose.Schema({
     weight: {
         type: Number,
         required: true,
+    },
+    comments: {
+        type: String,
+    },
+    result: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
 });
 module.exports = mongoose.model('dataSchema', dataSchema);
