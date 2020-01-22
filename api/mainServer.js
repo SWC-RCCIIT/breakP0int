@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const dataSchema = require('./models/dataSchema');
 const drugSchema = require('./models/drugSchema');
 const verifyToken = require('./modules/verifyTokenMid');
+const invokeMl = require('./modules/runMLServer');
 
 const app = express();
 app.use(express.json());
@@ -29,6 +30,7 @@ app.post('/prescribed/:disease', async (req, res) => {
     const { medicine, dosage, age, weight } = req.body;
     let data = new dataSchema({ disease, medicine, dosage, age, weight });
     await data.save();
+    invokeMl();
     res.send(data.toObject({ virtuals: true }));
 });
 
