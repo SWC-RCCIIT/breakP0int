@@ -50,8 +50,8 @@ app.post('/token', (req, res) => {
     });
 });
 
-app.delete('/logout', (req, res) => {
-    authSchema.findOneAndDelete({ refreshToken: req.body.token });
+app.get('/logout', (req, res) => {
+    authSchema.findOneAndDelete({ refreshToken: req.query.token });
     res.sendStatus(204);
 });
 

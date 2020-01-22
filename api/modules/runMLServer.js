@@ -13,6 +13,6 @@ const invokeMl = () => {
             fetch(mlUrl);
         }, time);
     }
-}
+};
 
 module.exports = invokeMl;
