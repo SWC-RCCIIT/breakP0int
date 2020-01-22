@@ -17,8 +17,20 @@ data = pd.DataFrame(list(collection.find()))
 del data['_id']
 del data['__v']
 
-print(data)
+#print(data)
+
+region0 = []
+
+for region, df_region in data.groupby('medicine'):
+    #print(region)
+    #print(df_region)
+    region0.append(region)
+    with open(region, "wb") as f:
+        pickle.dump(df_region, f)
 
 with open("Data.pickle", "wb") as f:
     pickle.dump(data, f)
+
+with open("medicines.pickle", "wb") as f:
+    pickle.dump(region0, f)
 print("Pickle Dump Complete.")
