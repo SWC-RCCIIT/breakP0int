@@ -62,7 +62,7 @@ app.get('/login', async (req, res) => {
             { user: request.username },
             process.env.REFRESH_TOKEN_SECRET,
         );
-        let user = new authSchema({ username: request.username, refreshToken });
+        // let user = new authSchema({ username: request.username });
         let token = generateAccessToken({ user: request.username }, 360);
         sendMail(
             request.username,
@@ -73,7 +73,24 @@ app.get('/login', async (req, res) => {
             )}">Click here to verify yourself</a>`,
         );
 
-        await user.save();
+        await authSchema.update(
+            { username: request.username },
+            { refreshToken },
+            {
+                upsert: true,
+                new: true,
+                setDefaultsOnInsert: true,
+            },
+        );
+
+        // await user.update(
+        //     { refreshToken, username: request.username },
+        //     {
+        //         upsert: true,
+        //         new: true,
+        //         setDefaultsOnInsert: true,
+        //     },
+        // );
         res.status(201).send({ refreshToken });
     } else if (request.verif && request.username) {
         jwt.verify(
