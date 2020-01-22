@@ -1,1 +1,1 @@
-module.exports = ['ambloaxin', 'boritin', 'campacin', 'doltinaxin', 'exeterin'];
+module.exports = ['phenoxymethylpenicillin', 'flucloxacillin', 'amoxicillin', 'cefaclor', 'cefadroxil', 'cefalexin', 'tetracycline', 'doxycycline', 'lymecycline', 'gentamicin'];

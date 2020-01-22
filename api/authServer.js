@@ -7,8 +7,6 @@ const jwt = require('jsonwebtoken');
 const sendMail = require('./modules/sendmail');
 const URL = require('url');
 
-//TODO: Replace refreshToken array
-
 mongoose.connect(
     process.env.MONGO_AUTH,
     {
@@ -32,7 +30,10 @@ app.post('/token', (req, res) => {
             process.env.REFRESH_TOKEN_SECRET,
             (err, user) => {
                 if (err) return res.sendStatus(403);
-                const accessToken = generateAccessToken({ name: user.name });
+                const accessToken = generateAccessToken(
+                    { name: user.name },
+                    99999,
+                );
                 authSchema.findOne({ refreshToken }, async (err, doc) => {
                     if (err) return res.sendStatus(404);
                     if (!doc.accessToken) {
@@ -49,8 +50,8 @@ app.post('/token', (req, res) => {
     });
 });
 
-app.delete('/logout', (req, res) => {
-    authSchema.findOneAndDelete({ refreshToken: req.body.token });
+app.get('/logout', (req, res) => {
+    authSchema.findOneAndDelete({ refreshToken: req.query.token });
     res.sendStatus(204);
 });
 
@@ -61,8 +62,8 @@ app.get('/login', async (req, res) => {
             { user: request.username },
             process.env.REFRESH_TOKEN_SECRET,
         );
-        let user = new authSchema({ username: request.username, refreshToken });
-        let token = generateAccessToken({ user: request.username });
+        // let user = new authSchema({ username: request.username });
+        let token = generateAccessToken({ user: request.username }, 360);
         sendMail(
             request.username,
             `<a href="http://${process.env.HOSTNAME}:${
@@ -72,7 +73,24 @@ app.get('/login', async (req, res) => {
             )}">Click here to verify yourself</a>`,
         );
 
-        await user.save();
+        await authSchema.update(
+            { username: request.username },
+            { refreshToken },
+            {
+                upsert: true,
+                new: true,
+                setDefaultsOnInsert: true,
+            },
+        );
+
+        // await user.update(
+        //     { refreshToken, username: request.username },
+        //     {
+        //         upsert: true,
+        //         new: true,
+        //         setDefaultsOnInsert: true,
+        //     },
+        // );
         res.status(201).send({ refreshToken });
     } else if (request.verif && request.username) {
         jwt.verify(
@@ -80,23 +98,31 @@ app.get('/login', async (req, res) => {
             process.env.ACCESS_TOKEN_SECRET,
             async err => {
                 if (err) return res.sendStatus(403);
-                const accessToken = generateAccessToken({
-                    user: request.username,
-                });
+                const accessToken = generateAccessToken(
+                    {
+                        user: request.username,
+                    },
+                    99999,
+                );
                 let user_ = await authSchema.findOneAndUpdate(
                     { username: request.username },
                     { accessToken },
                 );
-                await user_.save();
-                res.json({ accessToken });
+                try {
+                    await user_.save();
+                    res.json({ accessToken });
+                } catch (err) {
+                    console.error(err);
+                    res.sendStatus(405);
+                }
             },
         );
     } else res.sendStatus(404);
 });
 
-function generateAccessToken(user) {
+function generateAccessToken(user, time) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: 360,
+        expiresIn: time,
     });
 }
 
