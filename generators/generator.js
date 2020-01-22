@@ -1,7 +1,7 @@
 const diseases = require('../api/constants/diseases');
 const drugs = require('../api/constants/drugs');
 
-const connStr = "mongostring";
+const connStr = "mongodb+srv://quinn:9163@clusterone-0rkvj.mongodb.net/reelitin?retryWrites=true&w=majority";
 const mongoose = require('../api/node_modules/mongoose');
 
 mongoose.connect(connStr, () => {
@@ -37,4 +37,4 @@ const generateData = async (n) => {
         //return data;
 }
 
-generateData(1000);
+generateData(20000);

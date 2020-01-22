@@ -7,8 +7,6 @@ const jwt = require('jsonwebtoken');
 const sendMail = require('./modules/sendmail');
 const URL = require('url');
 
-//TODO: Replace refreshToken array
-
 mongoose.connect(
     process.env.MONGO_AUTH,
     {
